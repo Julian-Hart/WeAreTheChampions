@@ -79,6 +79,7 @@ function appendToEndorcementContainer(endorcementArr) {
         console.log("likes updated");
       }
     );
+    clearEndorcementContainer();
     refreshEndorcementContainer();
   });
 
