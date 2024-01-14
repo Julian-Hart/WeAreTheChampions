@@ -25,10 +25,6 @@ const endorcementContainer = document.getElementById("endorcement-container");
 let endorcementArr = [];
 let endorcementLikedID = JSON.parse(localStorage.getItem("likedID"));
 
-if (!endorcementLikedID) {
-  endorcementLikedID = [];
-}
-
 publishBtn.addEventListener("click", function () {
   if (
     endorcementTextarea.value != 0 &&
@@ -65,6 +61,10 @@ function clearEndorcementContainer() {
   endorcementContainer.innerHTML = "";
 }
 
+if (endorcementLikedID === null) {
+  endorcementLikedID = [];
+}
+
 function appendToEndorcementContainer(endorcementArr) {
   const endorcementID = endorcementArr[0];
   const endorcementObj = endorcementArr[1];
@@ -86,7 +86,7 @@ function appendToEndorcementContainer(endorcementArr) {
         }
       );
       endorcementLikedID.push(endorcementID);
-      localStorage.setItem("liked", JSON.stringify(endorcementLikedID));
+      localStorage.setItem("likedID", JSON.stringify(endorcementLikedID));
       clearEndorcementContainer();
       refreshEndorcementContainer();
       console.log("liked!");
