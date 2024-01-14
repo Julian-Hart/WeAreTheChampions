@@ -23,6 +23,11 @@ const publishBtn = document.getElementById("publish-btn");
 const endorcementContainer = document.getElementById("endorcement-container");
 
 let endorcementArr = [];
+let endorcementLikedID = JSON.parse(localStorage.getItem("likedID"));
+
+if (!endorcementLikedID) {
+  endorcementLikedID = [];
+}
 
 publishBtn.addEventListener("click", function () {
   if (
@@ -72,15 +77,22 @@ function appendToEndorcementContainer(endorcementArr) {
   let likeH4 = document.createElement("h4");
 
   newDiv.addEventListener("click", function () {
-    let likes = Number(endorcementObj.likes);
-    likes++;
-    set(ref(database, `endorcements/${endorcementID}/likes`), likes).then(
-      () => {
-        console.log("likes updated");
-      }
-    );
-    clearEndorcementContainer();
-    refreshEndorcementContainer();
+    if (endorcementLikedID.indexOf(endorcementID) === -1) {
+      let likes = Number(endorcementObj.likes);
+      likes++;
+      set(ref(database, `endorcements/${endorcementID}/likes`), likes).then(
+        () => {
+          console.log("likes updated");
+        }
+      );
+      endorcementLikedID.push(endorcementID);
+      localStorage.setItem("liked", JSON.stringify(endorcementLikedID));
+      clearEndorcementContainer();
+      refreshEndorcementContainer();
+      console.log("liked!");
+    } else {
+      console.log("already liked");
+    }
   });
 
   toH4.textContent = endorcementObj.toText;
